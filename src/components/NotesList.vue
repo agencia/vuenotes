@@ -23,11 +23,12 @@ export default {
   data () {
     return {
       showForm : false,
-      note : { title : '', body : ''},
+      note : { id: null, title : '', body : ''},
+      nextid : 4,
       notes : [
-        { title : 'Step 1', body : 'Create a placeholder for all the notes' },
-        { title : 'Step 2', body : 'Create two placeholders for all the notes' },
-        { title : 'Step 3', body : 'Create 3 placeholders for all the notes' }
+        { id : 1, title : 'Step 1', body : 'Create a placeholder for all the notes' },
+        { id : 2, title : 'Step 2', body : 'Create two placeholders for all the notes' },
+        { id : 3, title : 'Step 3', body : 'Create 3 placeholders for all the notes' }
       ]
     }
   },
@@ -36,15 +37,23 @@ export default {
       this.note = { title : '', body : ''};
     },
     edit(_note){
+      this.openForm();
       this.note = _note;
     },
-    save : function (_note) {
+    save (_note) {
       if(_note.title != '' && _note.body != ''){
-        this.notes.push(_note);
+        if(_note.id == null) {
+          _note.id = this.nextid;
+          this.nextid += 1;
+          this.notes.push(_note);
+        }
       }
       this.toggleForm();
     },
-    toggleForm : function (){
+    openForm(){
+      this.showForm = true;
+    },
+    toggleForm (){
       this.showForm = !this.showForm;
     }
   },
