@@ -3,7 +3,7 @@
     <h1>Notes</h1>
     <div class="list-options">
       <button v-show="!showForm" v-on:click="toggleForm">Add note</button>
-      <note-page v-show="showForm" v-bind:note="note" v-on:saveNote="save"/>
+      <note-page v-show="showForm" v-bind:note.sync="note" v-on:saveNote="save"/>
     </div>
     <ul>
       <li v-for="note in notes">

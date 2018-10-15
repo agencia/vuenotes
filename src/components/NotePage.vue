@@ -1,7 +1,7 @@
 <template>
   <div class="note">
-    <input type="text" placeholder="Title of the note" v-model="formNote.title">
-    <textarea rows="5" v-model="formNote.body" placeholder="Body of the note"></textarea>
+    <input type="text" placeholder="Title of the note" v-model="note.title">
+    <textarea rows="5" v-model="note.body" placeholder="Body of the note"></textarea>
     <div><button v-on:click="save">Save</button><button v-on:click="cancel">Cancel</button></div>
   </div>
 </template>
@@ -12,16 +12,16 @@ export default {
   props : ['note'],
   data () {
     return {
-      formNote : this.note
+
     }
   },
   methods : {
     save(){
-      this.$emit('saveNote',Object.assign({}, this.formNote));
-      this.formNote = { title : '', body : ''};
+      this.$emit('saveNote',Object.assign({}, this.note));
+      this.$emit('update:note',{ title : '', body : ''});
     },
     cancel(){
-      this.formNote = { title : '', body : ''};
+      this.$emit('update:note',{ title : '', body : ''});
       this.save();
     }
   }
