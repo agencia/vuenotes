@@ -6,7 +6,7 @@
       <note-page v-show="showForm" v-bind:note.sync="note" v-on:saveNote="save"/>
     </div>
     <ul>
-      <li v-for="note in notes">
+      <li v-for="note in this.$store.state.notes">
         <div class="note">
           <div class="title">{{ note.title }}</div>
           <div class="body">{{ note.body }}</div>
@@ -28,8 +28,6 @@ export default {
     return {
       showForm : false,
       note : { id: null, title : '', body : ''},
-      nextid : 1,
-      notes : []
     }
   },
   methods : {
@@ -41,16 +39,14 @@ export default {
       this.note = _note;
     },
     remove(id){
-      this.notes = this.notes.filter( _note => {
-        return _note.id != id;
-      });
+      this.$store.commit('removenote',id);
     },
     save (_note) {
       if(_note.title != '' && _note.body != ''){
         if(_note.id == null) {
-          _note.id = this.nextid;
-          this.nextid += 1;
-          this.notes.push(_note);
+          _note.id = this.$store.state.nextid;
+          this.$store.commit('increment');
+          this.$store.commit('addnote',_note);
         }
       }
       this.toggleForm();
