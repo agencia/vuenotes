@@ -8,8 +8,12 @@
     <ul>
       <li v-for="note in notes">
         <div class="note">
-          <div class="title">{{ note.title }} <i v-on:click="edit(note)">edit</i></div>
+          <div class="title">{{ note.title }}</div>
           <div class="body">{{ note.body }}</div>
+          <div class="footer">
+            <a class="opt" v-on:click="edit(note)">edit</a>
+            <a class="opt" v-on:click="remove(note.id)">delete</a>
+          </div>
         </div>
       </li>
     </ul>
@@ -24,12 +28,8 @@ export default {
     return {
       showForm : false,
       note : { id: null, title : '', body : ''},
-      nextid : 4,
-      notes : [
-        { id : 1, title : 'Step 1', body : 'Create a placeholder for all the notes' },
-        { id : 2, title : 'Step 2', body : 'Create two placeholders for all the notes' },
-        { id : 3, title : 'Step 3', body : 'Create 3 placeholders for all the notes' }
-      ]
+      nextid : 1,
+      notes : []
     }
   },
   methods : {
@@ -39,6 +39,11 @@ export default {
     edit(_note){
       this.openForm();
       this.note = _note;
+    },
+    remove(id){
+      this.notes = this.notes.filter( _note => {
+        return _note.id != id;
+      });
     },
     save (_note) {
       if(_note.title != '' && _note.body != ''){
@@ -92,6 +97,12 @@ export default {
     }
     .body {
       padding: 10px;
+    }
+    .footer {
+      .opt {
+        margin: 5px;
+        font-size: 12px;
+      }
     }
   }
 </style>
